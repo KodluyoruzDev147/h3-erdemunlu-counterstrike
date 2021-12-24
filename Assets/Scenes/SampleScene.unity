@@ -10758,13 +10758,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ea59247756e4cc5b5f0c3c7ecc827e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPositionsTeamA:
+  StartPositions:
   - {fileID: 1960831639032754863, guid: 8d0dcce75e7a249fea1f166438f23e89, type: 3}
-  - {fileID: 6306853148107849337, guid: cd87809bf23d548039dcf667bca3bb30, type: 3}
-  - {fileID: 1415260015541187973, guid: 726aac7eb24354d929d325592b8a4b24, type: 3}
-  StartPositionsTeamB:
   - {fileID: 7126762823231138681, guid: f091bcd80dae84ad5bfce7e1f2e28b27, type: 3}
+  - {fileID: 6306853148107849337, guid: cd87809bf23d548039dcf667bca3bb30, type: 3}
   - {fileID: 7966696246826129005, guid: a03a38c578b5040828eb2ee53873a5e6, type: 3}
+  - {fileID: 1415260015541187973, guid: 726aac7eb24354d929d325592b8a4b24, type: 3}
   - {fileID: 2298230160321466444, guid: 491087d84279246da9b5ece78b88bd83, type: 3}
   Soldier: {fileID: 2637747678984814442, guid: 746cf6145f78a46ea885610b1310b13b, type: 3}
 --- !u!4 &844846970

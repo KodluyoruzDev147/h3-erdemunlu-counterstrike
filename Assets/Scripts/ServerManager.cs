@@ -8,8 +8,7 @@ using Photon.Realtime;
 public class ServerManager : MonoBehaviourPunCallbacks
 {
     public static Dictionary<int, GameObject> allPlayers;
-    public Transform[] StartPositionsTeamA;
-    public Transform[] StartPositionsTeamB;
+    public Transform[] StartPositions;
     public GameObject Soldier;
 
     private void Start()
@@ -38,16 +37,8 @@ public class ServerManager : MonoBehaviourPunCallbacks
         if (allPlayers == null) allPlayers = new Dictionary<int, GameObject>();
 
         
-        if (PhotonNetwork.LocalPlayer.ActorNumber % 2 == 1)
-        {
-            GameObject newPlayer = PhotonNetwork.Instantiate(Soldier.name, StartPositionsTeamA[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.position, Quaternion.identity, 0, null);
-            allPlayers.Add(PhotonNetwork.LocalPlayer.ActorNumber, newPlayer);
-        }
-        else
-        {
-            GameObject newPlayer = PhotonNetwork.Instantiate(Soldier.name, StartPositionsTeamB[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.position, Quaternion.identity, 0, null);
-            allPlayers.Add(PhotonNetwork.LocalPlayer.ActorNumber, newPlayer);
-        }
+        GameObject newPlayer = PhotonNetwork.Instantiate(Soldier.name, StartPositions[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.position, Quaternion.identity, 0, null);
+        allPlayers.Add(PhotonNetwork.LocalPlayer.ActorNumber, newPlayer);
 
         ExitGames.Client.Photon.Hashtable initialProps0 = new ExitGames.Client.Photon.Hashtable() { { Constants.SOLDIER_HEALTH, PlayerSetup.PlayerHealth } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps0);
