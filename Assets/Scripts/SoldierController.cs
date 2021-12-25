@@ -90,7 +90,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
     {                                                                                                                 
         if (photonView.IsMine)
         {
-            soldierAngle += Input.GetAxis("Mouse X") * defaultRotateMultiplier * Time.deltaTime;
+            soldierAngle += Input.GetAxis(Constants.MOUSE_X_INPUT) * defaultRotateMultiplier * Time.deltaTime;
             transform.localRotation = Quaternion.AngleAxis(soldierAngle, Vector3.up);
         }
     }
@@ -107,8 +107,8 @@ public class SoldierController : MonoBehaviourPunCallbacks
             if (Physics.Raycast(ray, out hit))                                           
             {                                                                            
                 Transform objectHit = hit.transform;
-                if (objectHit.tag != "Player") return;
-                int randomDamage = (int)Random.Range(5, 15);
+                if (objectHit.tag != Constants.PLAYER_TAG) return;
+                int randomDamage = Random.Range(5, 15);
                 objectHit.gameObject.GetComponent<PhotonView>().RPC(nameof(DamageEnemy),RpcTarget.AllBuffered, randomDamage);
             }
         }
@@ -118,9 +118,9 @@ public class SoldierController : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            animator.SetBool("idle", isIdle);
-            animator.SetBool("isRun", isRun);
-            animator.SetBool("isShoot", isShoot);
+            animator.SetBool(Constants.IDLE_ANIMATION, isIdle);
+            animator.SetBool(Constants.RUN_ANIMATION, isRun);
+            animator.SetBool(Constants.SHOOT_ANIMATION, isShoot);
         }
     }
 
