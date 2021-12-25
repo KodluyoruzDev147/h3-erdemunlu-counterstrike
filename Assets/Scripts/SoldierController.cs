@@ -133,7 +133,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
             if(player.ActorNumber == info.photonView.Owner.ActorNumber)
             {
                 int playerHealth = (int)player.CustomProperties[Constants.PLAYER_HEALTH];
-                if (playerHealth < damage)
+                if (playerHealth <= damage)
                 {
                     Reset();
                     break;
