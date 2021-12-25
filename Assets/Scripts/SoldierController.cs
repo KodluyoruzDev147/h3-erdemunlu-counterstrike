@@ -153,6 +153,6 @@ public class SoldierController : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable healthProp = new ExitGames.Client.Photon.Hashtable() { { Constants.PLAYER_HEALTH, Constants.SOLDIER_HEALTH } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(healthProp);
         playerHealthText.text = $"Health {Constants.SOLDIER_HEALTH}%";
-        if (photonView.IsMine) gameObject.transform.position = startPosition;
+        gameObject.transform.position = startPosition;
     }
 }
