@@ -14,6 +14,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
     public Camera camera;
     private Animator animator;
     public TextMeshProUGUI playerHealthText;
+    public Vector3 startPosition;
 
 
     private void Start()
@@ -22,6 +23,8 @@ public class SoldierController : MonoBehaviourPunCallbacks
         {
             animator = GetComponent<Animator>();
             playerHealthText.enabled = false;
+            startPosition = gameObject.transform.position;
+            playerHealthText.text = $"Health 100%";
         }
     }
 
@@ -128,11 +131,26 @@ public class SoldierController : MonoBehaviourPunCallbacks
             if(player.ActorNumber == info.photonView.Owner.ActorNumber)
             {
                 int playerHealth = (int)player.CustomProperties[Constants.SOLDIER_HEALTH];
-                if (playerHealth < damage) playerHealth = 0;
+                if (playerHealth < damage)
+                {
+                    Reset();
+                    break;
+                }
                 else playerHealth -= damage;
                 player.CustomProperties[Constants.SOLDIER_HEALTH] = playerHealth;
                 playerHealthText.text = $"Health {playerHealth}%";
+                
             }
         }
+    }
+
+
+
+    public void Reset()
+    {
+        gameObject.transform.position = startPosition;
+        ExitGames.Client.Photon.Hashtable healthProp = new ExitGames.Client.Photon.Hashtable() { { Constants.SOLDIER_HEALTH, 100 } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(healthProp);
+        playerHealthText.text = $"Health 100%";
     }
 }

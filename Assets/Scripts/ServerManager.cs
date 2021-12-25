@@ -11,6 +11,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
     public Transform[] StartPositions;
     public GameObject Soldier;
 
+
     private void Start()
     {
         // Server Settings.
@@ -35,7 +36,6 @@ public class ServerManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom() // In here actor numbers given to the players by Photon. Before here all players actor number is -1.
     {
         if (allPlayers == null) allPlayers = new Dictionary<int, GameObject>();
-
         
         GameObject newPlayer = PhotonNetwork.Instantiate(Soldier.name, StartPositions[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.position, Quaternion.identity, 0, null);
         allPlayers.Add(PhotonNetwork.LocalPlayer.ActorNumber, newPlayer);
