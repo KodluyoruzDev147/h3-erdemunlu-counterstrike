@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using TMPro;
 
 public class SoldierController : MonoBehaviourPunCallbacks
 {
@@ -12,6 +13,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
     public float soldierAngle;
     public Camera camera;
     private Animator animator;
+    public TextMeshProUGUI playerHealthText;
 
 
     private void Start()
@@ -19,6 +21,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             animator = GetComponent<Animator>();
+            playerHealthText.enabled = false;
         }
     }
 
@@ -98,10 +101,10 @@ public class SoldierController : MonoBehaviourPunCallbacks
                                                                                          
             if (Physics.Raycast(ray, out hit))                                           
             {                                                                            
-                Transform objectHit = hit.transform;                                     
-                                                                                         
-                UnityEngine.Debug.Log("Object tag: " + objectHit.tag);                   
-                // Do something with the object that was hit by the raycast.
+                Transform objectHit = hit.transform;
+                if (objectHit.tag != "Player") return;
+                int randomDamage = (int)Random.Range(5, 15);
+                objectHit.gameObject.GetComponent<PhotonView>().RPC(nameof(DamageEnemy),RpcTarget.AllBuffered, randomDamage);
             }
         }
     }
@@ -113,6 +116,23 @@ public class SoldierController : MonoBehaviourPunCallbacks
             animator.SetBool("idle", isIdle);
             animator.SetBool("isRun", isRun);
             animator.SetBool("isShoot", isShoot);
+        }
+    }
+
+
+    [PunRPC]
+    public void DamageEnemy(int damage, PhotonMessageInfo info)
+    {
+        foreach(Player player in PhotonNetwork.PlayerList)
+        {
+            if(player.ActorNumber == info.photonView.Owner.ActorNumber)
+            {
+                int playerHealth = (int)player.CustomProperties[Constants.SOLDIER_HEALTH];
+                if (playerHealth < damage) playerHealth = 0;
+                else playerHealth -= damage;
+                player.CustomProperties[Constants.SOLDIER_HEALTH] = playerHealth;
+                playerHealthText.text = $"Health {playerHealth}%";
+            }
         }
     }
 }
