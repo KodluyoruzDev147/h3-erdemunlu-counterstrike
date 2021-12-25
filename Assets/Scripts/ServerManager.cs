@@ -40,7 +40,7 @@ public class ServerManager : MonoBehaviourPunCallbacks
         GameObject newPlayer = PhotonNetwork.Instantiate(Soldier.name, StartPositions[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.position, Quaternion.identity, 0, null);
         allPlayers.Add(PhotonNetwork.LocalPlayer.ActorNumber, newPlayer);
 
-        ExitGames.Client.Photon.Hashtable initialProps0 = new ExitGames.Client.Photon.Hashtable() { { Constants.SOLDIER_HEALTH, PlayerSetup.PlayerHealth } };
+        ExitGames.Client.Photon.Hashtable initialProps0 = new ExitGames.Client.Photon.Hashtable() { { Constants.PLAYER_HEALTH, PlayerSetup.PlayerHealth } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps0);
 
         ExitGames.Client.Photon.Hashtable initialProps1 = new ExitGames.Client.Photon.Hashtable() { { Constants.SOLDIER_MAGAZINE, PlayerSetup.PlayerMagazine } };

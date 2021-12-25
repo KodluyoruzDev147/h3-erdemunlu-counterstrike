@@ -14,6 +14,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
     public Camera camera;
     private Animator animator;
     public TextMeshProUGUI playerHealthText;
+    public GameObject playerHealthTextBackground;
     public Vector3 startPosition;
 
 
@@ -23,6 +24,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
         {
             animator = GetComponent<Animator>();
             playerHealthText.enabled = false;
+            playerHealthTextBackground.SetActive(false);
             startPosition = gameObject.transform.position;
             playerHealthText.text = $"Health 100%";
         }
@@ -130,14 +132,14 @@ public class SoldierController : MonoBehaviourPunCallbacks
         {
             if(player.ActorNumber == info.photonView.Owner.ActorNumber)
             {
-                int playerHealth = (int)player.CustomProperties[Constants.SOLDIER_HEALTH];
+                int playerHealth = (int)player.CustomProperties[Constants.PLAYER_HEALTH];
                 if (playerHealth < damage)
                 {
                     Reset();
                     break;
                 }
                 else playerHealth -= damage;
-                player.CustomProperties[Constants.SOLDIER_HEALTH] = playerHealth;
+                player.CustomProperties[Constants.PLAYER_HEALTH] = playerHealth;
                 playerHealthText.text = $"Health {playerHealth}%";
                 
             }
@@ -148,9 +150,9 @@ public class SoldierController : MonoBehaviourPunCallbacks
 
     public void Reset()
     {
-        gameObject.transform.position = startPosition;
-        ExitGames.Client.Photon.Hashtable healthProp = new ExitGames.Client.Photon.Hashtable() { { Constants.SOLDIER_HEALTH, 100 } };
+        ExitGames.Client.Photon.Hashtable healthProp = new ExitGames.Client.Photon.Hashtable() { { Constants.PLAYER_HEALTH, Constants.SOLDIER_HEALTH } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(healthProp);
-        playerHealthText.text = $"Health 100%";
+        playerHealthText.text = $"Health {Constants.SOLDIER_HEALTH}%";
+        if (photonView.IsMine) gameObject.transform.position = startPosition;
     }
 }
