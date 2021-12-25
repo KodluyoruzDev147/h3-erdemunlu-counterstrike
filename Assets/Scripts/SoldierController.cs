@@ -12,21 +12,21 @@ public class SoldierController : MonoBehaviourPunCallbacks
     public float fastMoveMultiplier = 10f;
     public float soldierAngle;
     public Camera camera;
-    private Animator animator;
     public TextMeshProUGUI playerHealthText;
     public GameObject playerHealthTextBackground;
     public Vector3 startPosition;
+    private Animator _animator;
+    private Animator animator => _animator ?? (_animator = GetComponent<Animator>());
 
 
     private void Start()
     {
         if (photonView.IsMine)
         {
-            animator = GetComponent<Animator>();
             playerHealthText.enabled = false;
             playerHealthTextBackground.SetActive(false);
             startPosition = gameObject.transform.position;
-            playerHealthText.text = $"Health 100%";
+            playerHealthText.text = $"Health {Constants.SOLDIER_HEALTH}%";
         }
     }
 
