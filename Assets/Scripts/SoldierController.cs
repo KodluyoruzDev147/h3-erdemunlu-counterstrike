@@ -135,7 +135,7 @@ public class SoldierController : MonoBehaviourPunCallbacks
                 int playerHealth = (int)player.CustomProperties[Constants.PLAYER_HEALTH];
                 if (playerHealth <= damage)
                 {
-                    Reset();
+                    Reset(player, playerHealthText);
                     break;
                 }
                 else playerHealth -= damage;
@@ -148,11 +148,14 @@ public class SoldierController : MonoBehaviourPunCallbacks
 
 
 
-    public void Reset()
+    public void Reset(Player player, TextMeshProUGUI healthText)
     {
         ExitGames.Client.Photon.Hashtable healthProp = new ExitGames.Client.Photon.Hashtable() { { Constants.PLAYER_HEALTH, Constants.SOLDIER_HEALTH } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(healthProp);
-        playerHealthText.text = $"Health {Constants.SOLDIER_HEALTH}%";
-        gameObject.transform.position = startPosition;
+        player.SetCustomProperties(healthProp);
+        healthText.text = $"Health {Constants.SOLDIER_HEALTH}%";
+        if (ServerManager.allPlayers.ContainsKey(player.ActorNumber))
+        {
+            ServerManager.allPlayers[player.ActorNumber].gameObject.transform.position = startPosition;
+        }
     }
 }
